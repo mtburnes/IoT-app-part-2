@@ -35,16 +35,16 @@ app.get('/addData', (req, res) => {
     .status(200)
     .send('I am in great pain.')
     .end()
-  heartRateLog.push(req.query.heartRate)
+  heartRateLog.push(parseFloat(req.query.heartRate))
   minimum = heartRateLog[0]
   maximum = heartRateLog[0]
   for(let i = 1; i < heartRateLog.length; i++){
-    if(heartRateLog < minimum){
+    if(heartRateLog[i] < minimum){
       minimum = heartRateLog[i]
     }
   }
   for(let i = 1; i < heartRateLog.length; i++){
-    if(heartRateLog > maximum){
+    if(heartRateLog[i] > maximum){
       maximum = heartRateLog[i]
     }
   }
@@ -54,8 +54,9 @@ app.get('/addData', (req, res) => {
   }
   mean = count / heartRateLog.length
 
-  heartRateLog = heartRateLog.sort
-  median = heartRateLog[Math.round(heartRateLog.length/2)]
+  heartRateLog = heartRateLog.sort()
+  //Converting to an int: https://stackoverflow.com/questions/596467
+  median = heartRateLog[~~(heartRateLog.length/2)]
 })
 
 app.get('/statistics', (req, res) => {
