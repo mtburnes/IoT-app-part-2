@@ -19,31 +19,51 @@
 const express = require('express');
 
 const app = express();
-let timesHelloed = 0;
+
+let minimum, maximum, mean, median
+let heartRateLog = []
 
 app.get('/', (req, res) => {
-  timesHelloed++;
   res
     .status(200)
     .send('Hello, world!')
     .end();
 });
 
-app.get('/timesHelloed', (req, res) => {
+app.get('/addData', (req, res) => {
   res
     .status(200)
-    .send(`Times Helloed: ${timesHelloed}`)
+    .send('I am in great pain.')
     .end()
+  heartRateLog.push(req.query.heartRate)
+  minimum = heartRateLog[0]
+  maximum = heartRateLog[0]
+  for(let i = 1; i < heartRateLog.length; i++){
+    if(heartRateLog < minimum){
+      minimum = heartRateLog[i]
+    }
+  }
+  for(let i = 1; i < heartRateLog.length; i++){
+    if(heartRateLog > maximum){
+      maximum = heartRateLog[i]
+    }
+  }
+  let count = 0
+  for(let i = 0; i < heartRateLog.length; i++){
+    count += heartRateLog[i]
+  }
+  mean = count / heartRateLog.length
+
+  heartRateLog = heartRateLog.sort
+  median = heartRateLog[Math.round(heartRateLog.length/2)]
 })
 
-app.get('/resetTimesHelloed', (req, res) => {
-  timesHelloed = 0;
+app.get('/statistics', (req, res) => {
   res
     .status(200)
-    .send(`You say hello, I say goodbye.`)
+    .send(`minimum: ${minimum}. maximum: ${maximum}. mean: ${mean}. median: ${median}.`)
     .end()
 })
-
 
 // Start the server
 const PORT = process.env.PORT || 8080;
