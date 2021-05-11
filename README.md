@@ -1,5 +1,9 @@
 # Quickstart for Node.js in the App Engine standard environment
 
+This application may or may not have security vulnerailities in it. Dependabot hath brought fourth a premonition of doom.
+
+I don't maintain this project anymore, so YMMV.
+
 This is the sample application for the
 [Quickstart for Node.js in the App Engine standard environment][tutorial]
 tutorial found in the [Google App Engine Node.js standard environment][appengine]
